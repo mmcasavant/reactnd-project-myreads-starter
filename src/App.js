@@ -6,6 +6,11 @@ import BookShelf from './components/bookShelf';
 import * as BooksAPI from './BooksAPI';
 
 class BooksApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.changeShelf = this.changeShelf.bind(this);
+    this.getAllBooks = this.getAllBooks.bind(this);
+  }
   state = {
       books: []
   }
@@ -14,9 +19,8 @@ class BooksApp extends React.Component {
   }
 
   changeShelf (book, shelf) {
-    const _self = this;
-    BooksAPI.update(book, shelf);
-    _self.getAllBooks();
+    BooksAPI.update(book, shelf)
+        .then(this.getAllBooks());
   }
   getAllBooks () {
       BooksAPI.getAll()
