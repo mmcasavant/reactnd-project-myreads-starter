@@ -11,7 +11,7 @@ function BookShelf (props) {
             <div className="bookshelf-books">
                 <ol className="books-grid">
                     {books.map((book) => {
-                        return <Book book={book} />
+                        return <Book key="book.id" book={book} />
                     })}
                 </ol>
             </div>
