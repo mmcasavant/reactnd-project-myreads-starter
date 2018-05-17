@@ -52,9 +52,9 @@ class BooksApp extends React.Component {
                   </div>
                   <div className="list-books-content">
                       <div>
-                          <BookShelf name='Currently Reading' books={this.state.books} onChange={this.changeShelf} />
-                          <BookShelf name='Want To Read' books={this.state.books} onChange={this.changeShelf} />
-                          <BookShelf name='Read' books={this.state.books} onChange={this.changeShelf} />
+                          <BookShelf name='Currently Reading' filter='currentlyReading' books={this.state.books} onChange={this.changeShelf} />
+                          <BookShelf name='Want To Read' filter='wantToRead' books={this.state.books} onChange={this.changeShelf} />
+                          <BookShelf name='Read' filter='read' books={this.state.books} onChange={this.changeShelf} />
                       </div>
                   </div>
                   <div className="open-search">

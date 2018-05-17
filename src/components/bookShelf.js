@@ -3,7 +3,7 @@ import Book from './book';
 
 function BookShelf (props) {
     const books = props.books.filter((book) => {
-        return book.shelf === props.name
+        return book.shelf === props.filter
     });
     return (
         <div className="bookshelf">
