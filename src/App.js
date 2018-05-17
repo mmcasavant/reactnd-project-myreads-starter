@@ -3,12 +3,28 @@ import React from 'react'
 import './App.css'
 import { Route, Link } from 'react-router-dom';
 import BookShelf from './components/bookShelf';
-import getAll from './BooksAPI';
+import * as BooksAPI from './BooksAPI';
 
 
 class BooksApp extends React.Component {
   state = {
       books: []
+  }
+
+  componentDidMount() {
+      BooksAPI.getAll()
+          .then((books) => {
+              this.setState(() => {
+                  books
+              })
+          })
+  }
+
+  deleteBook () {
+
+  }
+  changeShelf () {
+
   }
 
   render() {
@@ -43,9 +59,9 @@ class BooksApp extends React.Component {
                   </div>
                   <div className="list-books-content">
                       <div>
-                          <BookShelf name='Currently Reading' />
-                          <BookShelf name='Want To Read' />
-                          <BookShelf name='Read' />
+                          <BookShelf name='Currently Reading' books={this.books} onDelete={this.deleteBook} onChange={this.changeShelf} />
+                          <BookShelf name='Want To Read' books={this.books} onDelete={this.deleteBook} onChange={this.changeShelf} />
+                          <BookShelf name='Read' books={this.books} onDelete={this.deleteBook} onChange={this.changeShelf} />
                       </div>
                   </div>
                   <div className="open-search">
