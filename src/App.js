@@ -4,6 +4,7 @@ import './App.css'
 import { Route, Link } from 'react-router-dom';
 import BookShelf from './components/bookShelf';
 import * as BooksAPI from './BooksAPI';
+import Book from './components/book';
 
 class BooksApp extends React.Component {
   constructor(props) {
@@ -12,12 +13,12 @@ class BooksApp extends React.Component {
     this.getAllBooks = this.getAllBooks.bind(this);
   }
   state = {
-      books: []
+      books: [],
+      searchResults: []
   }
   componentDidMount() {
       this.getAllBooks();
   }
-
   changeShelf (book, shelf) {
     BooksAPI.update(book, shelf)
         .then(this.getAllBooks());
@@ -30,6 +31,14 @@ class BooksApp extends React.Component {
               }))
           }).catch((e) => console.log(e));
   }
+  searchBooks(value) {
+      BooksAPI.search(value)
+        .then((books) => {
+            this.state(() => ({
+                books
+            }));
+        })
+  }
   render() {
     return (
       <div className="app">
@@ -38,20 +47,15 @@ class BooksApp extends React.Component {
                   <div className="search-books-bar">
                       <Link to='/' className='close-search'>Close</Link>
                       <div className="search-books-input-wrapper">
-                          {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                          <input type="text" placeholder="Search by title or author"/>
-
+                          <input onKeyUp={this.searchBooks} type="text" placeholder="Search by title or author"/>
                       </div>
                   </div>
                   <div className="search-books-results">
-                      <ol className="books-grid"></ol>
+                      <ol className="books-grid">
+                          {this.state.searchResults.map((book) => (
+                              <Book key="book.id" book={book} changeShelf={this.changeShelf}/>
+                          ))}
+                      </ol>
                   </div>
               </div>
           )} />
