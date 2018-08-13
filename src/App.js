@@ -1,5 +1,5 @@
-import React from 'react'
-import './App.css'
+import React from 'react';
+import './App.css';
 import { Route, Link } from 'react-router-dom';
 import BookShelf from './components/bookShelf';
 import * as BooksAPI from './BooksAPI';
@@ -10,19 +10,21 @@ class BooksApp extends React.Component {
     super(props);
     this.changeShelf = this.changeShelf.bind(this);
     this.getAllBooks = this.getAllBooks.bind(this);
+    this.searchBooks = this.searchBooks.bind(this);
   }
   state = {
       books: [],
-      results: []
+      results: [],
+      renderedBooks: []
   }
   componentDidMount() {
       this.getAllBooks();
   }
-  changeShelf (book, shelf) {
+  changeShelf(book, shelf) {
     BooksAPI.update(book, shelf)
-        .then(this.getAllBooks());
+        .then(() => this.getAllBooks());
   }
-  getAllBooks () {
+  getAllBooks() {
       BooksAPI.getAll()
           .then((books) => {
               this.setState(() => ({
@@ -31,8 +33,17 @@ class BooksApp extends React.Component {
           }).catch((e) => console.log(e));
   }
   searchBooks(value) {
+      const books = this.state.books;
       BooksAPI.search(value)
           .then((results) => {
+              results.map(book => {
+                  const renderedBook = books.find(renderedBook => renderedBook.id === book.id);
+                  if (renderedBook && renderedBook.shelf) {
+                      return book.shelf = renderedBook.shelf
+                  } else {
+                      return book.shelf = 'none';
+                  }
+              })
               this.setState(() => ({
                   results
               }))
@@ -52,7 +63,7 @@ class BooksApp extends React.Component {
                   <div className="search-books-results">
                       <ol className="books-grid">
                           {this.state.results.map((book) => (
-                              <Book key="book.id" book={book} changeShelf={this.changeShelf}/>
+                              <Book key={book.id} book={book} changeShelf={this.changeShelf}/>
                           ))}
                       </ol>
                   </div>
@@ -80,4 +91,4 @@ class BooksApp extends React.Component {
   }
 }
 
-export default BooksApp
+export default BooksApp;

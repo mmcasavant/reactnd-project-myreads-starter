@@ -1,14 +1,20 @@
 import React from 'react';
+import { compose, prop, identity, curry } from 'ramda';
+import { maybe as Maybe } from 'folktale';
 
 function Book (props) {
+    const thumbnail = Maybe
+        .of(props.book)
+        .map(prop('imageLinks'))
+        .chain(prop('thumbnail'));
     return (
         <li>
             <div className="book">
                 <div className="book-top">
-                    <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: 'url(' + props.book.imageLinks.thumbnail + ')' }}></div>
+                    <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: 'url(' + thumbnail + ')' }}></div>
                     <div className="book-shelf-changer">
-                        <select onChange={(e) => props.changeShelf(props.book, e.target.value)}>
-                            <option value="none" disabled>Move to...</option>
+                        <select value={props.book.shelf} onChange={(e) => props.changeShelf(props.book, e.target.value)}>
+                            <option value="" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
                             <option value="read">Read</option>
