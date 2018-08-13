@@ -81,6 +81,32 @@ search(query)
 ## Important
 The backend API uses a fixed set of cached search results and is limited to a particular set of search terms, which can be found in [SEARCH_TERMS.md](SEARCH_TERMS.md). That list of terms are the _only_ terms that will work with the backend, so don't be surprised if your searches for Basket Weaving or Bubble Wrap don't come back with any results.
 
+Method Signature:
+
+```js
+Book(query)
+```
+Functional Stateless Component
+Props - string -> {book} -> (e -> ())
+@param
+string: key for book
+book: Book JSON Object
+(e -> ()): Event handler receives an event object returns nothing
+
+Method Signature:
+
+```js
+BookShelf(query)
+```
+A functional stateless component
+Props - string -> string -> {books} -> (e -> ())
+
+@param
+string: Label for shelf (Shelf name)
+string: String which designates which shelf we are currently loading.
+{books}: Object of all books relevant to that shelf.
+(e -> ()): Event handler receives an event object returns nothing
+
 ## Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). You can find more information on how to perform common tasks [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).

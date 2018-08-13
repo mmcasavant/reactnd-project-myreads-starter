@@ -35,18 +35,27 @@ class BooksApp extends React.Component {
   searchBooks(value) {
       const books = this.state.books;
       BooksAPI.search(value)
-          .then((results) => {
-              results.map(book => {
-                  const renderedBook = books.find(renderedBook => renderedBook.id === book.id);
-                  if (renderedBook && renderedBook.shelf) {
-                      return book.shelf = renderedBook.shelf
-                  } else {
-                      return book.shelf = 'none';
-                  }
-              })
-              this.setState(() => ({
-                  results
-              }))
+          .then((searchResults) => {
+              let results;
+              if (searchResults && !searchResults.hasOwnProperty('error')) {
+                  results = searchResults.map(book => {
+                      const renderedBook = books.find(renderedBook => renderedBook.id === book.id);
+                      if (renderedBook && renderedBook.shelf) {
+                          book.shelf = renderedBook.shelf
+                      } else {
+                          book.shelf = 'none';
+                      }
+                      return book;
+                  })
+                  this.setState(() => ({
+                      results
+                  }))
+              } else {
+                  this.setState(() => ({
+                      results: []
+                  }))
+              }
+
           }).catch((e) => console.log(e));
   }
   render() {
