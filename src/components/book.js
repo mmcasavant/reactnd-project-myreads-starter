@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose, prop, identity, curry } from 'ramda';
+import { prop } from 'ramda';
 import { maybe as Maybe } from 'folktale';
 
 function Book (props) {

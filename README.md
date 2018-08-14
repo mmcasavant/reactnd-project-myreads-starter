@@ -21,6 +21,9 @@ To get started developing right away:
 │   ├── favicon.ico # React Icon, You may change if you wish.
 │   └── index.html # DO NOT MODIFY
 └── src
+    └── components
+        ├── book.js - A functional stateless component that represents a book.
+        ├── bookShelf.js - A functional stateless component that wraps book components from book.js.
     ├── App.css # Styles for your app. Feel free to customize this as you desire.
     ├── App.js # This is the root of your app. Contains static HTML right now.
     ├── App.test.js # Used for testing. Provided with Create React App. Testing is encouraged, but not required.
@@ -101,11 +104,21 @@ BookShelf(query)
 A functional stateless component
 Props - string -> string -> {books} -> (e -> ())
 
+This component is used to host a list of book components that belong to the same collection.
+```
+<BookShelf name='Currently Reading' filter='currentlyReading' books={this.state.books} changeShelf={this.changeShelf} />
+```
+
 @param
 string: Label for shelf (Shelf name)
 string: String which designates which shelf we are currently loading.
 {books}: Object of all books relevant to that shelf.
 (e -> ()): Event handler receives an event object returns nothing
+
+This component represents a single book, use these inside the bookshelf component or on the search page.
+```
+<Book key={book.id} book={book} changeShelf={this.changeShelf} />
+```
 
 ## Create React App
 
